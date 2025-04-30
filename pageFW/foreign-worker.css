@@ -1,0 +1,359 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('/images/fw.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 70px; /* Increased padding to prevent footer overlap */
+}
+
+body::before {
+    content: "";
+    position: fixed; /* Changed to fixed to ensure full coverage */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-wrapper {
+    position: relative;
+    margin-right: 0; /* 确保 user-icon 紧贴 bell button */
+    display: flex;
+    align-items: center;
+    margin: 0; /* 移除多余的外边距 */
+    padding: 0 10px; /* 调整内边距 */
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.profile-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0; /* Align dropdown to the right */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    min-width: 180px;
+}
+
+.profile-dropdown p {
+    margin: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.header {
+    width: 100%;
+    background-color: #0056b3;
+    display: flex;
+    justify-content: space-between; /* Space between title and user icon */
+    align-items: center;
+    padding: 10px 20px; /* Adjusted padding */
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 在元素之间均匀分布 */
+    gap: 5px; /* 调整间距以保持平衡 */
+    padding-right: 5px; /* 添加一些右侧内边距 */
+}
+
+.header .logo img {
+    height: 40px; /* Adjusted height */
+}
+
+.header .title {
+    color: white;
+    font-size: 25px; /* Adjusted font size */
+    font-weight: bold;
+    margin-left: 10px; /* Add margin to the left */
+}
+.header .logout-button button {
+    padding: 5px 15px; /* 调整内边距 */
+    font-size: 16px; /* 调整字体大小 */
+    background-color: #f8350e; /* 使用与 admin_hs_page.php 相同的颜色 */
+    color: #fff;
+    border: none;
+    border-radius: 4px; /* 圆角按钮 */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 添加平滑过渡效果 */
+    font-style: bold;
+}
+.logout-btn {
+    background-color: #ff4d4d; /* 红色背景 */
+    color: white; /* 白色文字 */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-style: bold;
+}
+
+.logout-btn:hover {
+    background-color: #e60000; /* 深红色背景 */
+}
+/* Container Styling */
+.container {
+    margin: 30px auto; /* Center align */
+    padding: 20px;
+    width: 80%; /* Adjusted width for uniformity */
+    background-color: #fff; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 150px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.options {
+    display: grid; /* Use grid layout */
+    grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+    gap: 20px; /* Add spacing between grid items */
+    margin-top: 30px;
+    width: 100%;
+    justify-items: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    grid-auto-rows: auto; /* Adjust row height dynamically based on content */
+}
+
+.option {
+    text-align: center;
+    flex: none; /* Remove flex behavior */
+    background-color: #f9f9f9; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    display: flex; 
+    flex-direction: column;  
+    justify-content: center; 
+    align-items: center; 
+    width: 350px; 
+    height: 250px; 
+    gap: 10px; 
+    padding: 10px; /* Add padding inside each grid item */
+}
+
+.option img {
+    width: 130px; /* Set fixed width */
+    height: 130px; /* Set fixed height */
+    object-fit: unset; /* Remove cropping */
+    margin-bottom: 0; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.option .button-group {
+    display: flex; /* Align buttons horizontally */
+    gap: 10px; /* Add spacing between buttons */
+    justify-content: center; /* Center buttons horizontally */
+    width: 100%; /* Ensure buttons take up full width */
+}
+
+/* Button Styling */
+button {
+    padding: 12px 24px; /* Increased button size */
+    font-size: 16px; /* Increased font size */
+    background-color: #FF6F00;
+    color: #fff;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    margin-top: 0; /* Ensure no extra margin above the button */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    outline: none; /* Remove blue outline */
+}
+
+button:hover {
+    background-color: #E65100;
+}
+
+/* Shared Footer Styling */
+.footer {
+    background-color: #0d47a1;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    font-size: 13px;
+}
+
+.top-right-container {
+    display: flex;
+    align-items: center;
+    gap: 0; /* 确保元素没有间距 */
+}
+
+/* 添加淡入动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Notification Wrapper */
+.notification-wrapper {
+    position: relative; /* 确保子元素的绝对定位基于此容器 */
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.notification-icon {
+    cursor: pointer;
+    position: relative;
+}
+
+.notification-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff3b3b; /* 更鲜艳的红色 */
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 3px 7px;
+    line-height: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    position: absolute;
+    top: 100%; /* 放置在图标下方 */
+    right: 0; /* 对齐到右侧 */
+    width: 300px; /* 设置固定宽度 */
+    max-height: 400px; /* 限制高度，避免内容过多 */
+    overflow-y: auto; /* 超出部分滚动 */
+    background-color: #fff; /* 背景颜色 */
+    border: 1px solid #ccc; /* 边框 */
+    border-radius: 5px; /* 圆角 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 阴影 */
+    z-index: 1000; /* 确保在其他元素之上 */
+    display: none; /* 默认隐藏 */
+}
+
+/* 通知列表样式 */
+.notification-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.notification-dropdown ul li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #333;
+}
+
+.notification-dropdown ul li:last-child {
+    border-bottom: none;
+}
+
+/* 未读通知样式 */
+.notification-dropdown ul li.unread {
+    font-weight: bold;
+    background-color: #f9f9f9;
+}
+
+/* 已读通知样式 */
+.notification-dropdown ul li.read {
+    font-weight: normal;
+    background-color: #ffffff;
+}
+
+/* 鼠标悬停效果 */
+.notification-dropdown ul li:hover {
+    background-color: #f1f1f1;
+}
+
+/* Empty State Styling */
+.notification-dropdown p {
+    font-size: 14px;
+    color: #999;
+    padding: 15px;
+    text-align: center;
+}
+
+/* Add subtle hover effect for the dropdown */
+.notification-dropdown:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* 更明显的阴影 */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
