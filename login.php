@@ -2,9 +2,9 @@
 session_start();
 
 // Database connection variables
-$servername = "localhost";
-$username = "root";
-$password = "";
+$servername = "ehealth.mysql.database.azure.com";
+$username = "Ehealthsystem";
+$password = "foreign@123";
 $database = "foreign_workers";
 
 // Create connection
