@@ -45,13 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             echo "<script>
                     alert('Login successful!');
-                    window.location.href = '/pageFW/foreign-worker.php';
+                    window.location.href = '/foreign-worker.php';
                   </script>";
             exit();
         } else {
             echo "<script>
                     alert('Incorrect password.');
-                    window.location.href = '/views/login.php';
+                    window.location.href = 'login.php';
                   </script>";
             exit();
         }
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log("User not found. Query executed: SELECT * FROM registration WHERE user_id = '$user_id'");
         echo "<script>
                 alert('User not found. Please check your User ID.');
-                window.location.href = '/views/login.php';
+                window.location.href = '/login.php';
               </script>";
         exit();
     }
@@ -104,7 +104,7 @@ $conn->close();
                 <button type="submit" class="sign-in-btn">Sign In</button>
             </form>
 
-            <p class="sign-up-text">No account? <a href="/views/signup.php">Sign up here</a></p>
+            <p class="sign-up-text">No account? <a href="/signup.php">Sign up here</a></p>
         </div>
     </main>
 </body>
