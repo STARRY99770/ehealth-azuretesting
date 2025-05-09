@@ -7,10 +7,10 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // DB connection
-$servername = "sql101.infinityfree.com";
-$username = "if0_38846113";
-$password = "butTt8Utd8jb";
-$database = "if0_38846113_ehealth";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "foreign_workers";
 $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -87,7 +87,6 @@ function formatUploadDate($datetime) {
     <meta charset="UTF-8">
     <title>Submit Health Form</title>
     <link rel="stylesheet" href="/pageFW/submit-health-form.css">
-    <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
 </head>
 <body>
 <header class="header">

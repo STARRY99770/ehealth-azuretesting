@@ -1,59 +1,72 @@
 <?php
 session_start();
-require_once __DIR__ . '/../classes/DatabaseConnection.php';
-require_once __DIR__ . '/../classes/UserManager.php';
-require_once __DIR__ . '/../classes/BaseManager.php';
-require_once __DIR__ . '/../classes/ManagerInterface.php';
-require_once __DIR__ . '/../classes/AppointmentManager.php';
-require_once __DIR__ . '/../classes/notificationManager.php';
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "foreign_workers";
+
+$conn = new mysqli($servername, $username, $password, $database);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// 获取当前登录用户的用户名
+$current_user = 'Guest';
+if (isset($_SESSION['admin_id'])) {
+    $admin_id = $_SESSION['admin_id'];
+    $stmt = $conn->prepare("SELECT admin_id FROM login_h_i_staff WHERE admin_id = ?");
+    $stmt->bind_param("s", $admin_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $current_user = htmlspecialchars($row['admin_id']);
+    }
+    $stmt->close();
+}
 
 $message_script = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
+    $new_status = $_POST['status'];
+    $appointment_id = $_POST['appointment_id'];
 
-try {
-    // 初始化数据库连接
-    $db = new DatabaseConnection("sql101.infinityfree.com", "if0_38846113", "butTt8Utd8jb", "if0_38846113_ehealth");
-    $conn = $db->getConnection();
+    if ($appointment_id && in_array($new_status, ['pending', 'approved', 'rejected'])) {
+        $stmt = $conn->prepare("UPDATE appointments SET status = ? WHERE appointment_id = ?");
+        $stmt->bind_param("si", $new_status, $appointment_id);
+        $stmt->execute();
+        $stmt->close();
 
-    // 获取当前用户
-    $userManager = new UserManager($conn);
-    $current_user = $userManager->getCurrentUser($_SESSION);
-
-    // 初始化管理器
-    $appointmentManager = new AppointmentManager($conn);
-    $notificationManager = new NotificationManager($conn); // 初始化 NotificationManager
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['update_status'])) {
-            $new_status = $_POST['status'];
-            $appointment_id = $_POST['appointment_id'];
-            $user_id = $_POST['user_id']; // 获取用户ID
-
-            // 更新预约状态
-            if ($appointmentManager->updateAppointmentStatus($appointment_id, $new_status)) {
-                // 使用 NotificationManager 插入通知
-                $notification_message = "Your appointment has been updated to: " . ucfirst($new_status);
-                $notificationManager->addNotification($user_id, $notification_message);
-
-                echo "<script>alert('Status updated successfully and notification sent.');</script>";
-            } else {
-                echo "<script>alert('Failed to update status.');</script>";
-            }
-        }
-    }
-
-    // 获取预约列表
-    $filter_status = $_POST['filter_status'] ?? '';
-    $appointments = $appointmentManager->getAppointments($filter_status);
-
-} catch (Exception $e) {
-    // 捕获异常并显示错误消息
-    $message_script = "<script>alert('Error: " . $e->getMessage() . "');</script>";
-} finally {
-    // 确保数据库连接被关闭
-    if (isset($db)) {
-        $db->closeConnection();
+        $message_script = "<script>alert('Status updated successfully.');</script>";
+    } else {
+        $message_script = "<script>alert('Invalid input.');</script>";
     }
 }
+
+// Filter by status
+$filter_status = $_POST['filter_status'] ?? '';
+
+$sql = "SELECT 
+            r.medical_id, 
+            r.full_name AS name, 
+            r.email, 
+            a.appointment_date, 
+            a.appointment_time, 
+            a.status,
+            a.user_id,
+            a.appointment_id
+        FROM appointments a
+        JOIN registration r ON a.user_id = r.user_id";
+
+if (!empty($filter_status)) {
+    $sql .= " WHERE a.status = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $filter_status);
+} else {
+    $stmt = $conn->prepare($sql);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +76,6 @@ try {
     <title>Appointment Schedules</title>
     <link rel="stylesheet" href="/pageHS/appointment-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
 </head>
 <body>
 <?= $message_script ?>
@@ -104,9 +116,9 @@ try {
             </tr>
         </thead>
         <tbody>
-            <?php if ($appointments && $appointments->num_rows > 0): 
+            <?php if ($result && $result->num_rows > 0): 
                 $i = 1;
-                while ($row = $appointments->fetch_assoc()): ?>
+                while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <form method="post">
                         <td><?= $i++ ?></td>
@@ -123,7 +135,6 @@ try {
                         </td>
                         <td class="action-buttons">
                             <input type="hidden" name="appointment_id" value="<?= $row['appointment_id'] ?>">
-                            <input type="hidden" name="user_id" value="<?= $row['user_id'] ?>">
                             <button type="submit" name="update_status" class="update-btn">
                                 <i class="fa fa-check"></i> Update
                             </button>
