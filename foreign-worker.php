@@ -144,7 +144,7 @@ try {
 
     function logout() {
         alert("You have logged out successfully!");
-        window.location.href = "/home.php";
+        window.location.href = "/index.php";
     }
 
     function toggleProfileDropdown() {
