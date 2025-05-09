@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /views/login.php");
+    header("Location: /login.php");
     exit();
 }
 $user_id = $_SESSION['user_id']; // Get the logged-in user's ID
@@ -44,15 +44,15 @@ $user_id = $_SESSION['user_id']; // Get the logged-in user's ID
   <div class="options foreign-worker-options">
     <div class="option foreign-worker-option">
       <img src="/images/form.png" alt="Submit Health Form" />
-      <button onclick="location.href='/pageFW/submit-health-form.php'">Submit Health Form</button>
+      <button onclick="location.href='/submit-health-form.php'">Submit Health Form</button>
     </div>
     <div class="option foreign-worker-option">
       <img src="/images/schedule.png" alt="Booking for Appointment" />
-      <button onclick="location.href='/pageFW/booking-appointment.php'">Booking for Appointment</button>
+      <button onclick="location.href='/booking-appointment.php'">Booking for Appointment</button>
     </div>
     <div class="option foreign-worker-option">
       <img src="/images/print.png" alt="Print Approval Status" />
-      <button onclick="location.href='/pageFW/print-approval-status.php'">Check Records and Print Approval Status</button>
+      <button onclick="location.href='/print-approval-status.php'">Check Records and Print Approval Status</button>
     </div>
   </div>
 </div>
