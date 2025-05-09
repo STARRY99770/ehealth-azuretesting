@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sarawak E-health Management System</title>
-    <link rel="stylesheet" href="/home.css">
+    <link rel="stylesheet" href="/index.css">
     <link rel="icon" type="image/png" href="/images/srw.png" sizes="32x32">
 </head>
 <body>
@@ -20,7 +20,7 @@
             <button onclick="navigateTo('home')">Home</button>
             <button onclick="navigateTo('about')">About Us</button>
             <button onclick="navigateTo('contact')">Contact</button>
-            <a href="/views/login.php"><button class="login-btn">Login</button></a>
+            <a href="/login.php"><button class="login-btn">Login</button></a>
         </div>
     </header>
     
